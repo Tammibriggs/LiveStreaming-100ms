@@ -1,10 +1,19 @@
 import { useState } from "react"
 import Message from "./Message"
+import { selectHMSMessages, useHMSActions, useHMSStore } from "@100mslive/react-sdk"
 
 function ChatNdParticipants() {
 
   const [selectedOption, setSelectedOption] = useState('chat')
   const [message, setMessage] = useState('')
+  const messages = useHMSStore(selectHMSMessages)
+  const hmsActions = useHMSActions()
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    hmsActions.sendBroadcastMessage(message)
+    setMessage('')
+  }
 
   return (
     <div className='rightBox'>
@@ -27,9 +36,11 @@ function ChatNdParticipants() {
           <>
             <div className="rightBox__chats">
               {/* Messages */}
-              <Message />
+              {messages.map((msg) => (
+                <Message key={msg.id} message={msg} />
+              ))}
             </div>
-            <form name='send-message'>
+            <form name='send-messge' onSubmit={handleSubmit}>
               <input 
                 onChange={(e) => setMessage(e.target.value)}
                 value={message}
