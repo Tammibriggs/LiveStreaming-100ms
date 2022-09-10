@@ -1,6 +1,7 @@
 import { useState } from "react"
 import Message from "./Message"
 import { selectHMSMessages, useHMSActions, useHMSStore } from "@100mslive/react-sdk"
+import { selectPeers } from "@100mslive/react-sdk"
 
 function ChatNdParticipants() {
 
@@ -8,6 +9,7 @@ function ChatNdParticipants() {
   const [message, setMessage] = useState('')
   const messages = useHMSStore(selectHMSMessages)
   const hmsActions = useHMSActions()
+  const peers = useHMSStore(selectPeers)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -52,6 +54,12 @@ function ChatNdParticipants() {
         {selectedOption === 'participants' && 
           <div className="rightBox__participants">
             {/* Participants */}
+            {peers.map((peer) => (
+              <div className='rightBox__participant'>
+                {peer.name}
+                <p>{peer.roleName}</p>
+              </div>
+            ))}
           </div>
         }
       </div>
