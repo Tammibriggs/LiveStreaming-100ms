@@ -14,6 +14,10 @@ function Stream() {
           <VideoTile key={peer.id} peer={peer} peers={peers} />
         )) 
       }
+
+      {localPeer.roleName === 'hls-viewer' &&
+        <HlsView/>
+      }
     </div>
   )
 }
